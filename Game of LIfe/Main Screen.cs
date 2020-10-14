@@ -20,6 +20,9 @@ namespace Game_of_LIfe
         // boolean used to determine if the board wraps around on itself or if outside neighbors are counted as "dead"
         public bool wrapAround = true;
 
+        // boolean used to determine if the cells should be randomized on clear
+        public bool randomize = true;
+
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -44,6 +47,27 @@ namespace Game_of_LIfe
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer paused
+
+            // randomize the newly cleared board if the option is ticked
+            if (randomize)
+            {
+                // Iterate through the universe in the y, top to bottom
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
+                        int randNum = rand.Next() % 3;
+                        if (randNum == 0)
+                        {
+                            universe[x, y] = true;
+                            ++livingCells;
+                        }
+                    }
+                }
+            }
+            Redraw();
         }
 
         private int GetNeighbors(int x, int y)
@@ -275,6 +299,28 @@ namespace Game_of_LIfe
             // reset program state to "new", by setting the generation count to 0, the timer to be disabled, and redrawing
             timer.Enabled = false;
             generations = 0;
+            livingCells = 0;
+
+            // randomize the newly cleared board if the option is ticked
+            if (randomize)
+            {
+                // Iterate through the universe in the y, top to bottom
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
+                        int randNum = rand.Next() % 3;
+                        if (randNum == 0)
+                        {
+                            universe[x, y] = true;
+                            ++livingCells;
+                        }
+                    }
+                }
+            }
+
             Redraw();
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
             toolStripStatusLabelCells.Text = "Living cells = " + livingCells.ToString();

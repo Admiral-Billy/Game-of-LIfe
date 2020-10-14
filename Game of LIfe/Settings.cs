@@ -18,11 +18,11 @@ namespace Game_of_LIfe
             // Create form and initialize values to whatever the current values are
             InitializeComponent();
             this.game = game;
-            game.Reset();
             numericUpDown1.Value = game.timer.Interval;
             numericUpDown2.Value = game.universe.GetLength(0);
             numericUpDown3.Value = game.universe.GetLength(1);
             checkBox1.Checked = game.wrapAround;
+            checkBox2.Checked = game.randomize;
             this.Focus();
         }
 
@@ -40,7 +40,8 @@ namespace Game_of_LIfe
             game.scratchPad = new bool[(int)numericUpDown2.Value, (int)numericUpDown3.Value];
             game.timer.Interval = (int)numericUpDown1.Value;
             game.wrapAround = checkBox1.Checked;
-            game.Redraw();
+            game.randomize = checkBox2.Checked;
+            game.Reset();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -50,7 +51,8 @@ namespace Game_of_LIfe
             game.scratchPad = new bool[15, 15];
             game.timer.Interval = 100;
             game.wrapAround = true;
-            game.Redraw();
+            game.randomize = true;
+            game.Reset();
             this.Close();
         }
     }
