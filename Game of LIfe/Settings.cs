@@ -18,11 +18,19 @@ namespace Game_of_LIfe
             // Create form and initialize values to whatever the current values are
             InitializeComponent();
             this.game = game;
-            numericUpDown1.Value = game.timer.Interval;
-            numericUpDown2.Value = game.universe.GetLength(0);
-            numericUpDown3.Value = game.universe.GetLength(1);
-            checkBox1.Checked = game.wrapAround;
-            checkBox2.Checked = game.randomize;
+            // Timer interval box
+            numericUpDown1.Value = game.getTimerInterval();
+
+            // Universe X by Y size
+            numericUpDown2.Value = game.getUniverseSizeX();
+            numericUpDown3.Value = game.getUniverseSizeY();
+
+            // Wrap-around checkbox
+            checkBox1.Checked = game.getBoundaryBehavior();
+
+            // Randomization checkbox
+            checkBox2.Checked = game.getRandomization();
+
             this.Focus();
         }
 
@@ -36,22 +44,20 @@ namespace Game_of_LIfe
         private void UpdateData()
         {
             // Update game's values to the values input by the user
-            game.universe = new bool[(int)numericUpDown2.Value, (int)numericUpDown3.Value];
-            game.scratchPad = new bool[(int)numericUpDown2.Value, (int)numericUpDown3.Value];
-            game.timer.Interval = (int)numericUpDown1.Value;
-            game.wrapAround = checkBox1.Checked;
-            game.randomize = checkBox2.Checked;
+            game.setUniverseSize((int)numericUpDown2.Value, (int)numericUpDown3.Value);
+            game.setTimerInterval((int)numericUpDown1.Value);
+            game.setBoundaryBehavior(checkBox1.Checked);
+            game.setRandomization(checkBox2.Checked);
             game.Reset();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             // Reset the values to my own defined default settings of 15x15, 100ms intervals, wrap-around boundaries
-            game.universe = new bool[15, 15];
-            game.scratchPad = new bool[15, 15];
-            game.timer.Interval = 100;
-            game.wrapAround = true;
-            game.randomize = true;
+            game.setUniverseSize(15, 15);
+            game.setTimerInterval(100);
+            game.setBoundaryBehavior(true);
+            game.setRandomization(true);
             game.Reset();
             this.Close();
         }

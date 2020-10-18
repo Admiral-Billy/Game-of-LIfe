@@ -7,28 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace Game_of_LIfe
 {
     public partial class Form1 : Form
     {
         // The universe array
-        public bool[,] universe = new bool[15, 15];
+        bool[,] universe = new bool[15, 15];
         // Array used for the next generation
-        public bool[,] scratchPad = new bool[15, 15];
+        bool[,] scratchPad = new bool[15, 15];
 
         // boolean used to determine if the board wraps around on itself or if outside neighbors are counted as "dead"
-        public bool wrapAround = true;
+        bool wrapAround = true;
 
         // boolean used to determine if the cells should be randomized on clear
-        public bool randomize = true;
+        bool randomize = true;
+
+        // Seed used for randomization
+        bool seeded = false;
+        int seed = 0;
 
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
 
         // The Timer class
-        public Timer timer = new Timer();
+        Timer timer = new Timer();
 
         // Generation count
         int generations = 0;
@@ -51,18 +56,41 @@ namespace Game_of_LIfe
             // randomize the newly cleared board if the option is ticked
             if (randomize)
             {
-                // Iterate through the universe in the y, top to bottom
-                for (int y = 0; y < universe.GetLength(1); y++)
+                if (seeded)
                 {
-                    // Iterate through the universe in the x, left to right
-                    for (int x = 0; x < universe.GetLength(0); x++)
+                    // Iterate through the universe in the y, top to bottom
+                    for (int y = 0; y < universe.GetLength(1); y++)
                     {
-                        Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
-                        int randNum = rand.Next() % 3;
-                        if (randNum == 0)
+                        // Iterate through the universe in the x, left to right
+                        for (int x = 0; x < universe.GetLength(0); x++)
                         {
-                            universe[x, y] = true;
-                            ++livingCells;
+                            // Random number is generated with a given seed value
+                            Random rand = new Random(seed);
+                            // 1/3 living, 2/3 dead
+                            int randNum = rand.Next() % 3;
+                            if (randNum == 0)
+                            {
+                                universe[x, y] = true;
+                                ++livingCells;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Iterate through the universe in the y, top to bottom
+                    for (int y = 0; y < universe.GetLength(1); y++)
+                    {
+                        // Iterate through the universe in the x, left to right
+                        for (int x = 0; x < universe.GetLength(0); x++)
+                        {
+                            Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
+                            int randNum = rand.Next() % 3;
+                            if (randNum == 0)
+                            {
+                                universe[x, y] = true;
+                                ++livingCells;
+                            }
                         }
                     }
                 }
@@ -70,6 +98,7 @@ namespace Game_of_LIfe
             Redraw();
         }
 
+        // Game logic
         private int GetNeighbors(int x, int y)
         {
             int neighbors = 0;
@@ -284,48 +313,6 @@ namespace Game_of_LIfe
             toolStripStatusLabelCells.Text = "Living cells = " + livingCells.ToString();
         }
 
-        public void Reset()
-        {
-            // clear scratchPad and universe
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    scratchPad[x, y] = false;
-                    universe[x, y] = false;
-                }
-            }
-
-            // reset program state to "new", by setting the generation count to 0, the timer to be disabled, and redrawing
-            timer.Enabled = false;
-            generations = 0;
-            livingCells = 0;
-
-            // randomize the newly cleared board if the option is ticked
-            if (randomize)
-            {
-                // Iterate through the universe in the y, top to bottom
-                for (int y = 0; y < universe.GetLength(1); y++)
-                {
-                    // Iterate through the universe in the x, left to right
-                    for (int x = 0; x < universe.GetLength(0); x++)
-                    {
-                        Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
-                        int randNum = rand.Next() % 3;
-                        if (randNum == 0)
-                        {
-                            universe[x, y] = true;
-                            ++livingCells;
-                        }
-                    }
-                }
-            }
-
-            Redraw();
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
-            toolStripStatusLabelCells.Text = "Living cells = " + livingCells.ToString();
-        }
-
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
@@ -372,6 +359,71 @@ namespace Game_of_LIfe
             cellBrush.Dispose();
         }
 
+        public void Reset()
+        {
+            // clear scratchPad and universe
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    scratchPad[x, y] = false;
+                    universe[x, y] = false;
+                }
+            }
+
+            // reset program state to "new", by setting the generation count to 0, the timer to be disabled, and redrawing
+            timer.Enabled = false;
+            generations = 0;
+            livingCells = 0;
+
+            // randomize the newly cleared board if the option is ticked
+            if (randomize)
+            {
+                if (seeded)
+                {
+                    // Iterate through the universe in the y, top to bottom
+                    for (int y = 0; y < universe.GetLength(1); y++)
+                    {
+                        // Iterate through the universe in the x, left to right
+                        for (int x = 0; x < universe.GetLength(0); x++)
+                        {
+                            // Random number is generated with a given seed value
+                            Random rand = new Random(seed);
+                            // 1/3 living, 2/3 dead
+                            int randNum = rand.Next() % 3;
+                            if (randNum == 0)
+                            {
+                                universe[x, y] = true;
+                                ++livingCells;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Iterate through the universe in the y, top to bottom
+                    for (int y = 0; y < universe.GetLength(1); y++)
+                    {
+                        // Iterate through the universe in the x, left to right
+                        for (int x = 0; x < universe.GetLength(0); x++)
+                        {
+                            Random rand = new Random(Guid.NewGuid().GetHashCode()); // stackoverflow solution that seems to work well
+                            int randNum = rand.Next() % 3;
+                            if (randNum == 0)
+                            {
+                                universe[x, y] = true;
+                                ++livingCells;
+                            }
+                        }
+                    }
+                }
+            }
+
+            Redraw();
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLabelCells.Text = "Living cells = " + livingCells.ToString();
+        }
+
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             // If the left mouse button was clicked
@@ -410,35 +462,109 @@ namespace Game_of_LIfe
             }
         }
 
+        public int getUniverseSizeX()
+        {
+            return universe.GetLength(0);
+        }
+
+        public int getUniverseSizeY()
+        {
+            return universe.GetLength(1);
+        }
+
+        public void setUniverseSize(int x, int y)
+        {
+            universe = new bool[x, y];
+            scratchPad = new bool[x, y];
+            Reset();
+        }
+
+        public bool getBoundaryBehavior()
+        {
+            return wrapAround;
+        }
+
+        public void setBoundaryBehavior(bool value)
+        {
+            wrapAround = value;
+        }
+
+        public bool getRandomization()
+        {
+            return randomize;
+        }
+
+        public void setRandomization(bool value)
+        {
+            randomize = value;
+        }
+
+        public bool getSeeded()
+        {
+            return seeded;
+        }
+
+        public int getSeed()
+        {
+            return seed;
+        }
+
+        public void setSeeded(bool value)
+        {
+            seeded = value;
+        }
+
+        public void setSeed(int value)
+        {
+            seed = value;
+        }
+
+        public int getTimerInterval()
+        {
+            return timer.Interval;
+        }
+
+        public void setTimerInterval(int value)
+        {
+            timer.Interval = value;
+        }
+
+        // GUI elements coded below
         private void startStripButton_Click(object sender, EventArgs e)
         {
+            // Enable timer when clicking start button
             timer.Enabled = true;
         }
 
         private void pauseStripButton_Click(object sender, EventArgs e)
         {
+            // Disable timer when clicking pause button
             timer.Enabled = false;
         }
 
         private void nextStripButton_Click(object sender, EventArgs e)
         {
+            // Advance exactly one generation when clicking the next button
             NextGeneration();
-            graphicsPanel1.Invalidate();
+            Redraw();
         }
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Open up the settings menu on click
             Settings settings = new Settings(this);
             settings.Show();
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Reset the board when clicking the "new" button
             Reset();
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            // Redraw the board after toggling outlines on/off
             Redraw();
         }
     }
