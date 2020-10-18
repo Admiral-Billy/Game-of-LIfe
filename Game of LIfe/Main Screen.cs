@@ -26,7 +26,7 @@ namespace Game_of_LIfe
 
         // Seed used for randomization
         bool seeded = false;
-        int seed = 0;
+        int seed = 1;
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -58,14 +58,16 @@ namespace Game_of_LIfe
             {
                 if (seeded)
                 {
+                    int persistentSeed = seed;
                     // Iterate through the universe in the y, top to bottom
                     for (int y = 0; y < universe.GetLength(1); y++)
                     {
                         // Iterate through the universe in the x, left to right
                         for (int x = 0; x < universe.GetLength(0); x++)
                         {
-                            // Random number is generated with a given seed value
-                            Random rand = new Random(seed);
+                            // Random number is generated with a given seed value, Lehmer RNG algorithm
+                            persistentSeed = (48271 * persistentSeed) % Int32.MaxValue;
+                            Random rand = new Random(persistentSeed);
                             // 1/3 living, 2/3 dead
                             int randNum = rand.Next() % 3;
                             if (randNum == 0)
@@ -381,14 +383,16 @@ namespace Game_of_LIfe
             {
                 if (seeded)
                 {
+                    int persistentSeed = seed;
                     // Iterate through the universe in the y, top to bottom
                     for (int y = 0; y < universe.GetLength(1); y++)
                     {
                         // Iterate through the universe in the x, left to right
                         for (int x = 0; x < universe.GetLength(0); x++)
                         {
-                            // Random number is generated with a given seed value
-                            Random rand = new Random(seed);
+                            // Random number is generated with a given seed value, Lehmer RNG algorithm
+                            persistentSeed = (48271 * persistentSeed) % Int32.MaxValue;
+                            Random rand = new Random(persistentSeed);
                             // 1/3 living, 2/3 dead
                             int randNum = rand.Next() % 3;
                             if (randNum == 0)
