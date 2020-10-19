@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Visuals.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Visuals.Designer.cs">
+      <DependentUpon>Visuals.cs</DependentUpon>
+    </Compile>
     <Compile Include="Main Screen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
     </Compile>
     <EmbeddedResource Include="Settings.resx">
       <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Visuals.resx">
+      <DependentUpon>Visuals.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

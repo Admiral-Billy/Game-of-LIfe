@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -31,6 +32,7 @@ namespace Game_of_LIfe
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
+        Color neighborColor = Color.Red;
 
         // The Timer class
         Timer timer = new Timer();
@@ -329,6 +331,9 @@ namespace Game_of_LIfe
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
 
+            // A brush for the neighboring cell count of each cell
+            Brush neighborBrush = new SolidBrush(neighborColor);
+
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -352,6 +357,12 @@ namespace Game_of_LIfe
                     if (toolStripMenuItem1.Checked)
                     {
                         e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    }
+
+                    // Draw the neighborCount of each cell in the default font in roughly the middle of each cell (presentation rework pending)
+                    if (showNeighborCountToolStripMenuItem.Checked)
+                    {
+                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), Font, neighborBrush, cellRect.X + 2*cellWidth/5, cellRect.Y + 2*cellHeight/5);
                     }
                 }
             }
@@ -466,6 +477,7 @@ namespace Game_of_LIfe
             }
         }
 
+        // Getters/setters are self-explanatory
         public int getUniverseSizeX()
         {
             return universe.GetLength(0);
@@ -533,6 +545,26 @@ namespace Game_of_LIfe
             timer.Interval = value;
         }
 
+        public void setBackgroundColor(Color color)
+        {
+            graphicsPanel1.BackColor = color;
+        }
+
+        public void setGridColor(Color color)
+        {
+            gridColor = color;
+        }
+
+        public void setCellColor(Color color)
+        {
+            cellColor = color;
+        }
+
+        public void setNeighborCountColor(Color color)
+        {
+            neighborColor = color;
+        }
+
         // GUI elements coded below
         private void startStripButton_Click(object sender, EventArgs e)
         {
@@ -569,6 +601,20 @@ namespace Game_of_LIfe
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Redraw the board after toggling outlines on/off
+            Redraw();
+        }
+
+        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show the color customization screen
+            Visuals visuals = new Visuals(this);
+            visuals.Show();
+        }
+
+        private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Flip the checked status and redraw the board
+            showNeighborCountToolStripMenuItem.Checked = !showNeighborCountToolStripMenuItem.Checked;
             Redraw();
         }
     }
