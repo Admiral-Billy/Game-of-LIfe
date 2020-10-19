@@ -66,7 +66,7 @@ namespace Game_of_LIfe
             game.setBoundaryBehavior(true);
             game.setRandomization(true);
             game.setSeeded(false);
-            game.setSeed(0);
+            game.setSeed(1);
             game.Reset();
             this.Close();
         }

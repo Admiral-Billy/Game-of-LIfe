@@ -322,8 +322,16 @@ namespace Game_of_LIfe
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
             int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            if (cellWidth == 0)
+            {
+                cellWidth = 1; // minimum size
+            }
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
             int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            if (cellHeight == 0)
+            {
+                cellHeight = 1;
+            }
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
@@ -446,7 +454,15 @@ namespace Game_of_LIfe
             {
                 // Calculate the width and height of each cell in pixels
                 int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+                if (cellWidth == 0)
+                {
+                    cellWidth = 1; // minimum size
+                }
                 int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                if (cellHeight == 0)
+                {
+                    cellHeight = 1; // minimum size
+                }
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
