@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace Game_of_LIfe
 {
     public partial class Form1 : Form
     {
+        
         // The universe array
         bool[,] universe = new bool[15, 15];
         // Array used for the next generation
@@ -47,14 +49,39 @@ namespace Game_of_LIfe
         {
             InitializeComponent();
 
-            // default to outlined cells
+            // Arraylist to hold saved data to write to a file as strings; parse with Int32.Parse or Boolean.Prase
+            List<string> savedData = new List<string>();
+            // Formatting is as follows:
+            // int (universe X size)
+            // int (universe Y size)
+            // int (timer interval)
+            // bool (wraparound status)
+            // bool (randomization status)
+            // bool (seeded status)
+            // bool (outline status)
+            // bool (neighbor count status)
+            // bool (HUD status)
+            // int (seed for seeded status)
+            // int (ARGB for grid color)
+            // int (ARGB for cell color)
+            // int (ARGB for neighbor color)
+            // int (ARGB for graphicsPanel1.BackColor)
+
+            // File is read (if it exists) and the values are loaded into memory for initialization
+
+
+            // default to outlined cells TEMPORARY
             toolStripMenuItem1.Checked = true;
 
-            // Set up context strip
+            // default to showing HUD TEMPORARY
+            toggleHUDToolStripMenuItem.Checked = true;
+
+            // Set up context strip to have same values as the top menu options
             gridOutlinesToolStripMenuItem.Checked = toolStripMenuItem1.Checked;
             neighborCountToolStripMenuItem.Checked = showNeighborCountToolStripMenuItem.Checked;
             randomizeToolStripMenuItem.Checked = randomize;
             wraparoundToolStripMenuItem.Checked = wrapAround;
+            showHUDToolStripMenuItem.Checked = toggleHUDToolStripMenuItem.Checked;
 
             // Setup the timer
             timer.Interval = 100; // milliseconds
@@ -376,7 +403,7 @@ namespace Game_of_LIfe
                     // Draw the neighborCount of each cell in the default font in roughly the middle of each cell (presentation rework pending)
                     if (showNeighborCountToolStripMenuItem.Checked)
                     {
-                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), Font, neighborBrush, cellRect.X + 2*cellWidth/5, cellRect.Y + 2*cellHeight/5);
+                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), new Font(Font.FontFamily, 3*cellHeight/5), neighborBrush, cellRect.X + cellWidth/3, cellRect.Y);
                     }
                 }
             }
@@ -627,18 +654,32 @@ namespace Game_of_LIfe
             Redraw();
         }
 
-        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Show the color customization screen
-            Visuals visuals = new Visuals(this);
-            visuals.Show();
-        }
-
         private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Redraw the board after toggling and updating the context menu
             neighborCountToolStripMenuItem.Checked = showNeighborCountToolStripMenuItem.Checked;
             Redraw();
+        }
+
+        private void toggleHUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Set the other equivalant control to the same value and toggle the HUD
+            showHUDToolStripMenuItem.Checked = toggleHUDToolStripMenuItem.Checked;
+            if (toggleHUDToolStripMenuItem.Checked)
+            {
+                statusStrip1.Show();
+            }
+            else
+            {
+                statusStrip1.Hide();
+            }
+        }
+
+        private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Show the color customization screen
+            Visuals visuals = new Visuals(this);
+            visuals.Show();
         }
 
         private void gridOutlinesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -667,6 +708,20 @@ namespace Game_of_LIfe
             // Redraw the board after toggling
             randomize = randomizeToolStripMenuItem.Checked;
             Redraw();
+        }
+
+        private void showHUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Set the other equivalant control to the same value and toggle the HUD
+            toggleHUDToolStripMenuItem.Checked = showHUDToolStripMenuItem.Checked;
+            if (showHUDToolStripMenuItem.Checked)
+            {
+                statusStrip1.Show();
+            }
+            else
+            {
+                statusStrip1.Hide();
+            }
         }
     }
 }

@@ -63,6 +63,8 @@
             this.neighborCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wraparoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toggleHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -121,7 +123,8 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.showNeighborCountToolStripMenuItem});
+            this.showNeighborCountToolStripMenuItem,
+            this.toggleHUDToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "&View";
@@ -302,9 +305,10 @@
             this.gridOutlinesToolStripMenuItem,
             this.neighborCountToolStripMenuItem,
             this.wraparoundToolStripMenuItem,
-            this.randomizeToolStripMenuItem});
+            this.randomizeToolStripMenuItem,
+            this.showHUDToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 114);
             // 
             // gridOutlinesToolStripMenuItem
             // 
@@ -337,6 +341,22 @@
             this.randomizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.randomizeToolStripMenuItem.Text = "Randomize";
             this.randomizeToolStripMenuItem.Click += new System.EventHandler(this.randomizeToolStripMenuItem_Click);
+            // 
+            // toggleHUDToolStripMenuItem
+            // 
+            this.toggleHUDToolStripMenuItem.CheckOnClick = true;
+            this.toggleHUDToolStripMenuItem.Name = "toggleHUDToolStripMenuItem";
+            this.toggleHUDToolStripMenuItem.Size = new System.Drawing.Size(287, 22);
+            this.toggleHUDToolStripMenuItem.Text = "Toggle HUD";
+            this.toggleHUDToolStripMenuItem.Click += new System.EventHandler(this.toggleHUDToolStripMenuItem_Click);
+            // 
+            // showHUDToolStripMenuItem
+            // 
+            this.showHUDToolStripMenuItem.CheckOnClick = true;
+            this.showHUDToolStripMenuItem.Name = "showHUDToolStripMenuItem";
+            this.showHUDToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.showHUDToolStripMenuItem.Text = "Show HUD";
+            this.showHUDToolStripMenuItem.Click += new System.EventHandler(this.showHUDToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -397,6 +417,8 @@
         private System.Windows.Forms.ToolStripMenuItem neighborCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wraparoundToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem randomizeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toggleHUDToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem showHUDToolStripMenuItem;
     }
 }
 
