@@ -53,25 +53,31 @@
             // textBox1
             // 
             this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox1.Location = new System.Drawing.Point(12, 17);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
             this.textBox1.ShortcutsEnabled = false;
             this.textBox1.Size = new System.Drawing.Size(289, 15);
             this.textBox1.TabIndex = 0;
+            this.textBox1.TabStop = false;
             this.textBox1.Text = "Size (up to 2000x2000, mininum 1 pixel/cell):";
             // 
             // textBox2
             // 
             this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox2.Location = new System.Drawing.Point(12, 71);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
             this.textBox2.ShortcutsEnabled = false;
             this.textBox2.Size = new System.Drawing.Size(353, 15);
             this.textBox2.TabIndex = 1;
+            this.textBox2.TabStop = false;
             this.textBox2.Text = "Minimum time between generations in ms (may run slower):";
             // 
             // numericUpDown1
@@ -94,7 +100,7 @@
             0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(58, 20);
-            this.numericUpDown1.TabIndex = 2;
+            this.numericUpDown1.TabIndex = 3;
             this.numericUpDown1.Value = new decimal(new int[] {
             100,
             0,
@@ -116,7 +122,7 @@
             0});
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown2.TabIndex = 3;
+            this.numericUpDown2.TabIndex = 1;
             this.numericUpDown2.Value = new decimal(new int[] {
             10,
             0,
@@ -138,7 +144,7 @@
             0});
             this.numericUpDown3.Name = "numericUpDown3";
             this.numericUpDown3.Size = new System.Drawing.Size(51, 20);
-            this.numericUpDown3.TabIndex = 4;
+            this.numericUpDown3.TabIndex = 2;
             this.numericUpDown3.Value = new decimal(new int[] {
             10,
             0,
@@ -160,7 +166,7 @@
             this.button1.Location = new System.Drawing.Point(306, 315);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(116, 34);
-            this.button1.TabIndex = 6;
+            this.button1.TabIndex = 11;
             this.button1.Text = "Apply";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -170,7 +176,7 @@
             this.button2.Location = new System.Drawing.Point(12, 275);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(116, 34);
-            this.button2.TabIndex = 7;
+            this.button2.TabIndex = 8;
             this.button2.Text = "Reset to default";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -181,7 +187,7 @@
             this.checkBox1.Location = new System.Drawing.Point(145, 161);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(141, 17);
-            this.checkBox1.TabIndex = 8;
+            this.checkBox1.TabIndex = 4;
             this.checkBox1.Text = "Boundaries wrap-around";
             this.checkBox1.UseVisualStyleBackColor = true;
             // 
@@ -191,7 +197,7 @@
             this.checkBox2.Location = new System.Drawing.Point(145, 184);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(144, 17);
-            this.checkBox2.TabIndex = 9;
+            this.checkBox2.TabIndex = 5;
             this.checkBox2.Text = "Randomize cells on reset";
             this.checkBox2.UseVisualStyleBackColor = true;
             // 
@@ -201,7 +207,7 @@
             this.checkBox3.Location = new System.Drawing.Point(145, 207);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(171, 17);
-            this.checkBox3.TabIndex = 10;
+            this.checkBox3.TabIndex = 6;
             this.checkBox3.Text = "Use integer seed if randomized";
             this.checkBox3.UseVisualStyleBackColor = true;
             this.checkBox3.CheckedChanged += new System.EventHandler(this.checkBox3_CheckedChanged);
@@ -221,7 +227,7 @@
             0});
             this.numericUpDown4.Name = "numericUpDown4";
             this.numericUpDown4.Size = new System.Drawing.Size(85, 20);
-            this.numericUpDown4.TabIndex = 11;
+            this.numericUpDown4.TabIndex = 7;
             this.numericUpDown4.Value = new decimal(new int[] {
             1,
             0,
@@ -231,13 +237,16 @@
             // textBox4
             // 
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox4.Cursor = System.Windows.Forms.Cursors.Default;
             this.textBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox4.ImeMode = System.Windows.Forms.ImeMode.Disable;
             this.textBox4.Location = new System.Drawing.Point(45, 37);
             this.textBox4.Name = "textBox4";
             this.textBox4.ReadOnly = true;
             this.textBox4.ShortcutsEnabled = false;
             this.textBox4.Size = new System.Drawing.Size(346, 13);
             this.textBox4.TabIndex = 12;
+            this.textBox4.TabStop = false;
             this.textBox4.Text = "Note: Large values may have the universe go offscreen, but it\'ll still work.";
             // 
             // button3
@@ -245,7 +254,7 @@
             this.button3.Location = new System.Drawing.Point(134, 315);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(116, 34);
-            this.button3.TabIndex = 13;
+            this.button3.TabIndex = 10;
             this.button3.Text = "Save settings";
             this.button3.UseVisualStyleBackColor = true;
             // 
@@ -254,7 +263,7 @@
             this.button4.Location = new System.Drawing.Point(12, 315);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(116, 34);
-            this.button4.TabIndex = 14;
+            this.button4.TabIndex = 9;
             this.button4.Text = "Load last settings";
             this.button4.UseVisualStyleBackColor = true;
             // 

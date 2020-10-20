@@ -50,6 +50,12 @@ namespace Game_of_LIfe
             // default to outlined cells
             toolStripMenuItem1.Checked = true;
 
+            // Set up context strip
+            gridOutlinesToolStripMenuItem.Checked = toolStripMenuItem1.Checked;
+            neighborCountToolStripMenuItem.Checked = showNeighborCountToolStripMenuItem.Checked;
+            randomizeToolStripMenuItem.Checked = randomize;
+            wraparoundToolStripMenuItem.Checked = wrapAround;
+
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
@@ -616,7 +622,8 @@ namespace Game_of_LIfe
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            // Redraw the board after toggling outlines on/off
+            // Redraw the board after toggling outlines on/off and updating the context menu
+            gridOutlinesToolStripMenuItem.Checked = toolStripMenuItem1.Checked;
             Redraw();
         }
 
@@ -629,8 +636,36 @@ namespace Game_of_LIfe
 
         private void showNeighborCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Flip the checked status and redraw the board
-            showNeighborCountToolStripMenuItem.Checked = !showNeighborCountToolStripMenuItem.Checked;
+            // Redraw the board after toggling and updating the context menu
+            neighborCountToolStripMenuItem.Checked = showNeighborCountToolStripMenuItem.Checked;
+            Redraw();
+        }
+
+        private void gridOutlinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Redraw the board after toggling and updating the view menu
+            toolStripMenuItem1.Checked = gridOutlinesToolStripMenuItem.Checked;
+            Redraw();
+        }
+
+        private void neighborCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Redraw the board after toggling and updating the view menu
+            showNeighborCountToolStripMenuItem.Checked = neighborCountToolStripMenuItem.Checked;
+            Redraw();
+        }
+
+        private void wraparoundToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Redraw the board after toggling
+            wrapAround = wraparoundToolStripMenuItem.Checked;
+            Redraw();
+        }
+
+        private void randomizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Redraw the board after toggling
+            randomize = randomizeToolStripMenuItem.Checked;
             Redraw();
         }
     }
