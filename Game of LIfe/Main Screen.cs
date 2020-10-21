@@ -406,8 +406,11 @@ namespace Game_of_LIfe
                     // Draw the neighborCount of each cell in the default font in roughly the middle of each cell (presentation rework pending)
                     if (showNeighborCountToolStripMenuItem.Checked)
                     {
-                        // minimum font size of 1, which will look *terrible* with lots of numbers but oh well
-                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), new Font(Font.FontFamily, Math.Max(3*cellHeight/5, 1)), neighborBrush, cellRect.X + cellWidth/3, cellRect.Y);
+                        if (GetNeighbors(x,y) != 0)
+                        {
+                            // minimum font size of 1, which will look *terrible* with lots of numbers but oh well
+                            e.Graphics.DrawString(GetNeighbors(x, y).ToString(), new Font(Font.FontFamily, Math.Max(3 * cellHeight / 5, 1)), neighborBrush, cellRect.X + cellWidth / 3, cellRect.Y);
+                        }
                     }
                 }
             }
