@@ -651,7 +651,7 @@ namespace Game_of_LIfe
 
                 for (int i = 0; i < pattern.Length; ++i)
                 {
-                    if (pattern[i].Length > 0 && pattern[i][0] == '!')
+                    if (pattern[i].Length > 0 && (pattern[i][0] == '!' || pattern[i][0] == '#'))
                     {
                         // Comment lines aren't counted for universe size
                         ++fakeLines;
@@ -669,12 +669,12 @@ namespace Game_of_LIfe
                 universe = new bool[universeSizeX, universeSizeY];
                 scratchPad = new bool[universeSizeX, universeSizeY];
 
-                for (int y = 0; y < universe.GetLength(1); y++)
+                for (int y = 0; y < universe.GetLength(1) + fakeLines; y++)
                 {
                     // Iterate through the universe in the x, left to right
                     for (int x = 0; x < universe.GetLength(0); x++)
                     {
-                        if (pattern[y].Length == 0 || pattern[y][0] == '!' || pattern[y][0] == '\n')
+                        if (pattern[y].Length == 0 || pattern[y][0] == '#' || pattern[y][0] == '!' || pattern[y][0] == '\n')
                         {
                             // do nothing about comment lines and empty lines
                         }
@@ -689,11 +689,11 @@ namespace Game_of_LIfe
                                 // O and * represent living cells
                                 if (pattern[y][x] == 'O' || pattern[y][x] == '*')
                                 {
-                                    universe[x, y] = true;
+                                    universe[x, y - fakeLines] = true;
                                 }
                                 else
                                 {
-                                    universe[x, y] = false;
+                                    universe[x, y - fakeLines] = false;
                                 }
                             }
                         }
@@ -721,7 +721,7 @@ namespace Game_of_LIfe
 
                 for (int i = 0; i < pattern.Length; ++i)
                 {
-                    if (pattern[i].Length > 0 && pattern[i][0] == '!')
+                    if (pattern[i].Length > 0 && (pattern[i][0] == '!' || pattern[i][0] == '#'))
                     {
                         // Comment lines aren't counted for universe size
                         ++fakeLines;
@@ -745,12 +745,12 @@ namespace Game_of_LIfe
                 }
                 else
                 {
-                    for (int y = 0; y < universeSizeY; y++)
+                    for (int y = 0; y < universeSizeY + fakeLines; y++)
                     {
                         // Iterate through the universe in the x, left to right
                         for (int x = 0; x < universeSizeX; x++)
                         {
-                            if (pattern[y].Length == 0 || pattern[y][0] == '!' || pattern[y][0] == '\n')
+                            if (pattern[y].Length == 0 || pattern[y][0] == '#' || pattern[y][0] == '!' || pattern[y][0] == '\n')
                             {
                                 // do nothing about comment lines and empty lines
                             }
@@ -765,11 +765,11 @@ namespace Game_of_LIfe
                                     // O and * represent living cells
                                     if (pattern[y][x] == 'O' || pattern[y][x] == '*')
                                     {
-                                        universe[x, y] = true;
+                                        universe[x, y - fakeLines] = true;
                                     }
                                     else
                                     {
-                                        universe[x, y] = false;
+                                        universe[x, y - fakeLines] = false;
                                     }
                                 }
                             }
