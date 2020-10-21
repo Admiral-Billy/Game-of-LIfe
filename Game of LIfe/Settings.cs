@@ -60,12 +60,13 @@ namespace Game_of_LIfe
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Reset the values to my own defined default settings of 15x15, 100ms intervals, wrap-around boundaries, default colors and purely randomized
+            // Reset the values to my own defined default settings of 15x15, 100ms intervals, wrap-around boundaries, default colors, no neighbor counting and purely randomized
             game.setUniverseSize(15, 15);
             game.setTimerInterval(100);
             game.setBoundaryBehavior(true);
             game.setRandomization(true);
             game.setSeeded(false);
+            game.setNeighborCount(false);
             game.setSeed(1);
             game.setGridColor(Color.Black);
             game.setCellColor(Color.Gray);

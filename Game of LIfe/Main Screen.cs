@@ -406,7 +406,8 @@ namespace Game_of_LIfe
                     // Draw the neighborCount of each cell in the default font in roughly the middle of each cell (presentation rework pending)
                     if (showNeighborCountToolStripMenuItem.Checked)
                     {
-                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), new Font(Font.FontFamily, 3*cellHeight/5), neighborBrush, cellRect.X + cellWidth/3, cellRect.Y);
+                        // minimum font size of 1, which will look *terrible* with lots of numbers but oh well
+                        e.Graphics.DrawString(GetNeighbors(x,y).ToString(), new Font(Font.FontFamily, Math.Max(3*cellHeight/5, 1)), neighborBrush, cellRect.X + cellWidth/3, cellRect.Y);
                     }
                 }
             }
@@ -605,6 +606,182 @@ namespace Game_of_LIfe
             graphicsPanel1.BackColor = Color.FromArgb(Int32.Parse(savedData[13]));
         }
 
+        public void savePattern()
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // List that will be turned into an array for writing
+                List<string> pattern = new List<string>();
+
+                // Iterate through the universe in the y, top to bottom
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    string line = "";
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        if (universe[x, y] == true)
+                        {
+                            line = line + "O";
+                        }
+                        else
+                        {
+                            line = line + ".";
+                        }
+                    }
+                    pattern.Add(line);
+                }
+                System.IO.File.WriteAllLines(saveFileDialog1.FileName, pattern.ToArray());
+            }
+        }
+
+        public void loadPatternAsUniverse()
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                // Open file as a string array
+                string[] pattern = System.IO.File.ReadAllLines(openFileDialog1.FileName);
+
+                // Use variable to track what the largest possible size of the universe is
+                int universeSizeX = 0;
+                int universeSizeY = 0;
+
+                // use to track how many lines are comments
+                int fakeLines = 0;
+
+                for (int i = 0; i < pattern.Length; ++i)
+                {
+                    if (pattern[i].Length > 0 && pattern[i][0] == '!')
+                    {
+                        // Comment lines aren't counted for universe size
+                        ++fakeLines;
+                    }
+                    else
+                    {
+                        if (pattern[i].Length > universeSizeX)
+                        {
+                            universeSizeX = pattern[i].Length;
+                        }
+                    }
+                }
+                universeSizeY = pattern.Length - fakeLines;
+                // full universe loading doesn't consider bounding boxes or settings at all
+                universe = new bool[universeSizeX, universeSizeY];
+                scratchPad = new bool[universeSizeX, universeSizeY];
+
+                for (int y = 0; y < universe.GetLength(1); y++)
+                {
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < universe.GetLength(0); x++)
+                    {
+                        if (pattern[y].Length == 0 || pattern[y][0] == '!' || pattern[y][0] == '\n')
+                        {
+                            // do nothing about comment lines and empty lines
+                        }
+                        else
+                        {
+                            if (x > pattern[y].Length - 1 || pattern[y][x] == '\n')
+                            {
+                                // continue to next loop, no more living cells on that line
+                            }
+                            else
+                            {
+                                // O and * represent living cells
+                                if (pattern[y][x] == 'O' || pattern[y][x] == '*')
+                                {
+                                    universe[x, y] = true;
+                                }
+                                else
+                                {
+                                    universe[x, y] = false;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // redraw required after editing state of universe
+                Redraw();
+            }
+        }
+
+        public void loadPatternIntoUniverse()
+        {
+            // Open file as a string array
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string[] pattern = System.IO.File.ReadAllLines(openFileDialog1.FileName);
+
+                // Use variable to track what the largest possible size of the universe is
+                int universeSizeX = 0;
+                int universeSizeY = 0;
+
+                // use to track how many lines are comments
+                int fakeLines = 0;
+
+                for (int i = 0; i < pattern.Length; ++i)
+                {
+                    if (pattern[i].Length > 0 && pattern[i][0] == '!')
+                    {
+                        // Comment lines aren't counted for universe size
+                        ++fakeLines;
+                    }
+                    else
+                    {
+                        if (pattern[i].Length > universeSizeX)
+                        {
+                            universeSizeX = pattern[i].Length;
+                        }
+                    }
+                }
+
+                // real Y size is the array length minus the number of comment lines
+                universeSizeY = pattern.Length - fakeLines;
+
+                if (universeSizeX > universe.GetLength(0) || universeSizeY > universe.GetLength(1))
+                {
+                    // Don't load an impossible universe, show dialog
+                    MessageBox.Show("The universe is not big enough to import this universe. It must be at least " + universeSizeX + " by " + universeSizeY + ".");
+                }
+                else
+                {
+                    for (int y = 0; y < universeSizeY; y++)
+                    {
+                        // Iterate through the universe in the x, left to right
+                        for (int x = 0; x < universeSizeX; x++)
+                        {
+                            if (pattern[y].Length == 0 || pattern[y][0] == '!' || pattern[y][0] == '\n')
+                            {
+                                // do nothing about comment lines and empty lines
+                            }
+                            else
+                            {
+                                if (x > pattern[y].Length - 1 || pattern[y][x] == '\n')
+                                {
+                                    // continue to next loop, no more living cells on that line
+                                }
+                                else
+                                {
+                                    // O and * represent living cells
+                                    if (pattern[y][x] == 'O' || pattern[y][x] == '*')
+                                    {
+                                        universe[x, y] = true;
+                                    }
+                                    else
+                                    {
+                                        universe[x, y] = false;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // redraw required after editing state of universe
+                Redraw();
+            }
+        }
+
         // Getters/setters are self-explanatory
         public int getUniverseSizeX()
         {
@@ -631,6 +808,7 @@ namespace Game_of_LIfe
         public void setBoundaryBehavior(bool value)
         {
             wrapAround = value;
+            wraparoundToolStripMenuItem.Checked = value;
         }
 
         public bool getRandomization()
@@ -641,6 +819,7 @@ namespace Game_of_LIfe
         public void setRandomization(bool value)
         {
             randomize = value;
+            randomizeToolStripMenuItem.Checked = value;
         }
 
         public bool getSeeded()
@@ -691,6 +870,12 @@ namespace Game_of_LIfe
         public void setNeighborCountColor(Color color)
         {
             neighborColor = color;
+        }
+
+        public void setNeighborCount(bool value)
+        {
+            neighborCountToolStripMenuItem.Checked = value;
+            showNeighborCountToolStripMenuItem.Checked = value;
         }
 
         // GUI elements coded below
@@ -801,6 +986,30 @@ namespace Game_of_LIfe
             {
                 statusStrip1.Hide();
             }
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1 = new SaveFileDialog();
+            saveFileDialog1.Filter = "Plaintext Files (*.cells)|*.cells";
+            saveFileDialog1.Title = "Choose a name and location for the pattern...";
+            savePattern();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Plaintext Files (*.cells)|*.cells";
+            openFileDialog1.Title = "Choose a pattern file...";
+            loadPatternAsUniverse();
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Plaintext Files (*.cells)|*.cells";
+            openFileDialog1.Title = "Choose a pattern file...";
+            loadPatternIntoUniverse();
         }
     }
 }

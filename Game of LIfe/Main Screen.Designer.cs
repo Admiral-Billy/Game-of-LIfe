@@ -59,9 +59,9 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.gridOutlinesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.neighborCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.showHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wraparoundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.randomizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.showHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.graphicsPanel1 = new Game_of_LIfe.GraphicsPanel();
@@ -248,7 +248,8 @@
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton1.Text = "&Save pattern";
+            this.toolStripButton1.Text = "&Save universe";
+            this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // toolStripButton2
             // 
@@ -257,7 +258,8 @@
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton2.Text = "&Load pattern as full universe";
+            this.toolStripButton2.Text = "&Load universe";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripButton3
             // 
@@ -266,7 +268,8 @@
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(23, 22);
-            this.toolStripButton3.Text = "&Import pattern into current universe";
+            this.toolStripButton3.Text = "&Import pattern/universe into current universe (at top left corner)";
+            this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
             // statusStrip1
             // 
@@ -300,13 +303,13 @@
             this.wraparoundToolStripMenuItem,
             this.randomizeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 136);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(159, 114);
             // 
             // gridOutlinesToolStripMenuItem
             // 
             this.gridOutlinesToolStripMenuItem.CheckOnClick = true;
             this.gridOutlinesToolStripMenuItem.Name = "gridOutlinesToolStripMenuItem";
-            this.gridOutlinesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gridOutlinesToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.gridOutlinesToolStripMenuItem.Text = "Grid outlines";
             this.gridOutlinesToolStripMenuItem.Click += new System.EventHandler(this.gridOutlinesToolStripMenuItem_Click);
             // 
@@ -314,15 +317,23 @@
             // 
             this.neighborCountToolStripMenuItem.CheckOnClick = true;
             this.neighborCountToolStripMenuItem.Name = "neighborCountToolStripMenuItem";
-            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.neighborCountToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.neighborCountToolStripMenuItem.Text = "Neighbor count";
             this.neighborCountToolStripMenuItem.Click += new System.EventHandler(this.neighborCountToolStripMenuItem_Click);
+            // 
+            // showHUDToolStripMenuItem
+            // 
+            this.showHUDToolStripMenuItem.CheckOnClick = true;
+            this.showHUDToolStripMenuItem.Name = "showHUDToolStripMenuItem";
+            this.showHUDToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
+            this.showHUDToolStripMenuItem.Text = "Show HUD";
+            this.showHUDToolStripMenuItem.Click += new System.EventHandler(this.showHUDToolStripMenuItem_Click);
             // 
             // wraparoundToolStripMenuItem
             // 
             this.wraparoundToolStripMenuItem.CheckOnClick = true;
             this.wraparoundToolStripMenuItem.Name = "wraparoundToolStripMenuItem";
-            this.wraparoundToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.wraparoundToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.wraparoundToolStripMenuItem.Text = "Wrap-around";
             this.wraparoundToolStripMenuItem.Click += new System.EventHandler(this.wraparoundToolStripMenuItem_Click);
             // 
@@ -330,17 +341,9 @@
             // 
             this.randomizeToolStripMenuItem.CheckOnClick = true;
             this.randomizeToolStripMenuItem.Name = "randomizeToolStripMenuItem";
-            this.randomizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.randomizeToolStripMenuItem.Size = new System.Drawing.Size(158, 22);
             this.randomizeToolStripMenuItem.Text = "Randomize";
             this.randomizeToolStripMenuItem.Click += new System.EventHandler(this.randomizeToolStripMenuItem_Click);
-            // 
-            // showHUDToolStripMenuItem
-            // 
-            this.showHUDToolStripMenuItem.CheckOnClick = true;
-            this.showHUDToolStripMenuItem.Name = "showHUDToolStripMenuItem";
-            this.showHUDToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.showHUDToolStripMenuItem.Text = "Show HUD";
-            this.showHUDToolStripMenuItem.Click += new System.EventHandler(this.showHUDToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
