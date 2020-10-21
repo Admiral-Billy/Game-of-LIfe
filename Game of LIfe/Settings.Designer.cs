@@ -257,6 +257,7 @@
             this.button3.TabIndex = 10;
             this.button3.Text = "Save settings";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -266,6 +267,7 @@
             this.button4.TabIndex = 9;
             this.button4.Text = "Load last settings";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // textBox5
             // 

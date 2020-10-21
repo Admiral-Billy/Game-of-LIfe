@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -41,9 +42,8 @@ namespace Game_of_LIfe
 
         private void button1_Click(object sender, EventArgs e)
         {
-            // Accept changes then close the form
+            // Accept changes
             UpdateData();
-            this.Close();
         }
 
         private void UpdateData()
@@ -60,13 +60,17 @@ namespace Game_of_LIfe
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Reset the values to my own defined default settings of 15x15, 100ms intervals, wrap-around boundaries, and purely randomized
+            // Reset the values to my own defined default settings of 15x15, 100ms intervals, wrap-around boundaries, default colors and purely randomized
             game.setUniverseSize(15, 15);
             game.setTimerInterval(100);
             game.setBoundaryBehavior(true);
             game.setRandomization(true);
             game.setSeeded(false);
             game.setSeed(1);
+            game.setGridColor(Color.Black);
+            game.setCellColor(Color.Gray);
+            game.setNeighborCountColor(Color.Red);
+            game.setBackgroundColor(Color.White);
             game.Reset();
             this.Close();
         }
@@ -75,6 +79,20 @@ namespace Game_of_LIfe
         {
             // grey out the seed selector when the seeded checkbox is unchecked
             numericUpDown4.Enabled = checkBox3.Checked;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // Saving is the same as applying, but also saves to file
+            UpdateData();
+            game.SaveSettings();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            game.LoadSettings();
+            game.Reset();
+            this.Close();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -49,32 +50,23 @@ namespace Game_of_LIfe
         {
             InitializeComponent();
 
-            // Arraylist to hold saved data to write to a file as strings; parse with Int32.Parse or Boolean.Prase
-            List<string> savedData = new List<string>();
-            // Formatting is as follows:
-            // int (universe X size)
-            // int (universe Y size)
-            // int (timer interval)
-            // bool (wraparound status)
-            // bool (randomization status)
-            // bool (seeded status)
-            // bool (outline status)
-            // bool (neighbor count status)
-            // bool (HUD status)
-            // int (seed for seeded status)
-            // int (ARGB for grid color)
-            // int (ARGB for cell color)
-            // int (ARGB for neighbor color)
-            // int (ARGB for graphicsPanel1.BackColor)
-
-            // File is read (if it exists) and the values are loaded into memory for initialization
-
-
-            // default to outlined cells TEMPORARY
+            // default to outlined cells
             toolStripMenuItem1.Checked = true;
 
-            // default to showing HUD TEMPORARY
+            // default to showing HUD
             toggleHUDToolStripMenuItem.Checked = true;
+
+            try
+            {
+                LoadSettings();
+            }
+            catch (FileNotFoundException e)
+            {
+                // do nothing; default settings are already in place
+            }
+
+            // File is read (if it exists) and the values are loaded into memory for initialization
+            
 
             // Set up context strip to have same values as the top menu options
             gridOutlinesToolStripMenuItem.Checked = toolStripMenuItem1.Checked;
@@ -346,8 +338,19 @@ namespace Game_of_LIfe
         {
             // Tell Windows you need to repaint
             graphicsPanel1.Invalidate();
+
             // Update cell count
             toolStripStatusLabelCells.Text = "Living cells = " + livingCells.ToString();
+
+            // Update HUD Status
+            if (showHUDToolStripMenuItem.Checked)
+            {
+                statusStrip1.Show();
+            }
+            else
+            {
+                statusStrip1.Hide();
+            }
         }
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
@@ -524,6 +527,82 @@ namespace Game_of_LIfe
                 // Update visuals
                 Redraw();
             }
+        }
+
+        public void SaveSettings()
+        {
+            string[] data = new string[14];
+            // Formatting is as follows:
+            // int (universe X size)
+            // int (universe Y size)
+            // int (timer interval)
+            // bool (wraparound status)
+            // bool (randomization status)
+            // bool (seeded status)
+            // bool (outline status)
+            // bool (neighbor count status)
+            // bool (HUD status)
+            // int (seed for seeded status)
+            // int (ARGB for grid color)
+            // int (ARGB for cell color)
+            // int (ARGB for neighbor color)
+            // int (ARGB for graphicsPanel1.BackColor)
+
+            // add all of the variables mentioned above to the array
+            data[0] = getUniverseSizeX().ToString();
+            data[1] = getUniverseSizeY().ToString();
+            data[2] = timer.Interval.ToString();
+            data[3] = wrapAround.ToString();
+            data[4] = randomize.ToString();
+            data[5] = seeded.ToString();
+            data[6] = toolStripMenuItem1.Checked.ToString();
+            data[7] = showNeighborCountToolStripMenuItem.Checked.ToString();
+            data[8] = toggleHUDToolStripMenuItem.Checked.ToString();
+            data[9] = seed.ToString();
+            data[10] = gridColor.ToArgb().ToString();
+            data[11] = cellColor.ToArgb().ToString();
+            data[12] = neighborColor.ToArgb().ToString();
+            data[13] = graphicsPanel1.BackColor.ToArgb().ToString();
+
+            // Save!
+            System.IO.File.WriteAllLines(Directory.GetCurrentDirectory() + "/settings.txt", data);
+        }
+
+        public void LoadSettings()
+        {
+            // Array to hold saved data to read from a file as strings; parse with Int32.Parse or Boolean.Prase
+            string[] savedData = System.IO.File.ReadAllLines(Directory.GetCurrentDirectory() + "/settings.txt");
+            // Formatting is as follows:
+            // int (universe X size)
+            // int (universe Y size)
+            // int (timer interval)
+            // bool (wraparound status)
+            // bool (randomization status)
+            // bool (seeded status)
+            // bool (outline status)
+            // bool (neighbor count status)
+            // bool (HUD status)
+            // int (seed for seeded status)
+            // int (ARGB for grid color)
+            // int (ARGB for cell color)
+            // int (ARGB for neighbor color)
+            // int (ARGB for graphicsPanel1.BackColor)
+
+            // Parse all of the variables mentioned above
+            universe = new bool[Int32.Parse(savedData[0]), Int32.Parse(savedData[1])];
+            scratchPad = new bool[Int32.Parse(savedData[0]), Int32.Parse(savedData[1])];
+            timer.Interval = Int32.Parse(savedData[2]);
+            wrapAround = Boolean.Parse(savedData[3]);
+            randomize = Boolean.Parse(savedData[4]);
+            seeded = Boolean.Parse(savedData[5]);
+            toolStripMenuItem1.Checked = Boolean.Parse(savedData[6]);
+            showNeighborCountToolStripMenuItem.Checked = Boolean.Parse(savedData[7]);
+            toggleHUDToolStripMenuItem.Checked = Boolean.Parse(savedData[8]);
+            seed = Int32.Parse(savedData[9]);
+            setGridColor(Color.FromArgb(Int32.Parse(savedData[10])));
+            setCellColor(Color.FromArgb(Int32.Parse(savedData[11])));
+            setNeighborCountColor(Color.FromArgb(Int32.Parse(savedData[12])));
+            graphicsPanel1.BackColor = Color.FromArgb(Int32.Parse(savedData[13]));
         }
 
         // Getters/setters are self-explanatory
