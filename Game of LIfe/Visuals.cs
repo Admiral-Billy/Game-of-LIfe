@@ -19,6 +19,7 @@ namespace Game_of_LIfe
             this.game = game;
         }
 
+        // all methods simply control the color of their designated element, then redraw
         private void button1_Click(object sender, EventArgs e)
         {
             ColorDialog colorDialog1 = new ColorDialog();
